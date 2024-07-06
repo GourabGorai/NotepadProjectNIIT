@@ -5,7 +5,7 @@ from tkinter import filedialog, messagebox
 class NotepadApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Notepad")
+        self.root.title("Quicknote")
         self.file_path = None
 
         # Create Text Widget
@@ -19,9 +19,9 @@ class NotepadApp:
         # File Menu
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="File", menu=self.file_menu)
+        self.file_menu.add_command(label="Open", command=self.open_file)
         self.file_menu.add_command(label="Save As...", command=self.save_as)
         self.file_menu.add_command(label="Save", command=self.save, state='disabled')
-        self.file_menu.add_command(label="Open", command=self.open_file)
 
     def save_as(self):
         file_path = filedialog.asksaveasfilename(defaultextension=".txt",
@@ -32,7 +32,7 @@ class NotepadApp:
                     file.write(self.text_area.get(1.0, tk.END))
                 self.file_path = file_path
                 self.file_menu.entryconfig("Save", state='normal')
-                self.root.title(f"Notepad - {self.file_path}")
+                self.root.title(f"Quicknote - {self.file_path}")
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to save file: {e}")
 
