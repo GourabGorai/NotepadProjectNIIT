@@ -11,7 +11,7 @@ def main_window(root: ttkb.Window):
     root.state("zoomed")
 
     # title
-    welcome = ttk.Label(master=root, text="Welcome to Death Note!!!!!, What you gonna note?", font=("Ink Free", 20))
+    welcome = ttk.Label(master=root, text="Welcome to Death Note!!!!, What you gonna note?", font=("Ink Free", 20))
     welcome.pack(side="top", anchor="center", padx=10, pady=10)
 
     #create new menu
