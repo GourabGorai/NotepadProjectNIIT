@@ -6,16 +6,16 @@ import ttkbootstrap as ttkb
 def main_window(root: ttkb.Window):
     # window creation
     root.title("Death Note!")
-    icon = tk.PhotoImage(file="app_images/icon.png")
+    icon = tk.PhotoImage(file="app_images/skull.png")
     root.iconphoto(False, icon)
     root.state("zoomed")
 
     # title
-    welcome = ttk.Label(master=root, text="Welcome to Death Note!!!!, What you gonna note?", font=("Ink Free", 20))
+    welcome = ttk.Label(master=root, text="Welcome to Death Note, What do you wanna Kill?", font=("Ink Free", 20), foreground="red")
     welcome.pack(side="top", anchor="center", padx=10, pady=10)
 
     #create new menu
-    create_new = ttk.Label(master=root, text="Create New Note", font=("Ink Free", 14))
+    create_new = ttk.Label(master=root, text="Kill Someone", font=("Ink Free", 14), foreground="red")
     create_new.pack(side="top", anchor="nw", padx=10, pady=10)
 
     create_new_input_frame = ttk.Frame(master=root)
@@ -24,7 +24,7 @@ def main_window(root: ttkb.Window):
     create_new_input_frame.pack(side="top", anchor="nw", padx=5, pady=5)
 
     #see note menu
-    see_note = ttk.Label(master=root, text="See Note", font=("Ink Free", 14))
+    see_note = ttk.Label(master=root, text="See who you have killed", font=("Ink Free", 14), foreground="red")
     see_note.pack(side="top", anchor="nw", padx=10, pady=10)
 
     see_note_input_frame = ttk.Frame(master=root)
@@ -33,7 +33,7 @@ def main_window(root: ttkb.Window):
     see_note_input_frame.pack(side="top", anchor="nw", padx=5, pady=5)
 
     # about
-    about = ttk.Label(master=root, text="Created by:\nPrasun Bagdi\nGourab Gorai\nPartha Sarathi Guin", font=("Ink Free", 14))
+    about = ttk.Label(master=root, text="Created by:\nPrasun Bagdi\nGourab Gorai\nPartha Sarathi Guin", font=("Ink Free", 14), foreground="red")
     about.pack(side="bottom", anchor="center", padx=10, pady=10)
 
     #run
@@ -48,12 +48,12 @@ def open_window(root: ttkb.Window):
         # Create a new Toplevel window
         new_window = tk.Toplevel(root)
         new_window.title("Death Note!")
-        text_icon = tk.PhotoImage(file="app_images/icon.png")
+        text_icon = tk.PhotoImage(file="app_images/skull.png")
         new_window.iconphoto(False, text_icon)
         new_window.state("zoomed")
 
         # Note content text
-        see_note_text = ttk.Label(master=new_window, text="Your Note", font=("Ink Free", 14))
+        see_note_text = ttk.Label(master=new_window, text="You have killed", font=("Ink Free", 14), foreground="red")
         see_note_text.pack(side="top", anchor="center", padx=10, pady=10)
 
         # Frame for text widget and scrollbars
@@ -85,12 +85,12 @@ def text_window(root: ttkb.Window):
     # Create a new Toplevel window
     new_window = tk.Toplevel(root)
     new_window.title("Death Note!")
-    text_icon = tk.PhotoImage(file="app_images/icon.png")
+    text_icon = tk.PhotoImage(file="app_images/skull.png")
     new_window.iconphoto(False, text_icon)
     new_window.state("zoomed")
 
     # Multi-line input for note content
-    note_content_text = ttk.Label(master=new_window, text="Write Your Note", font=("Ink Free", 14))
+    note_content_text = ttk.Label(master=new_window, text="You are going to kill", font=("Ink Free", 14), foreground="red")
     note_content_text.pack(side="top", anchor="center", padx=10, pady=10)
 
     # Frame for the text widget and scrollbars
@@ -124,5 +124,5 @@ def save_note_to_file(note_content: tk.Text):
             file.write(note_content.get("1.0", tk.END))
 
 if __name__=="__main__":
-    window = ttkb.Window(themename="vapor")
+    window = ttkb.Window(themename="cyborg")
     main_window(window)
