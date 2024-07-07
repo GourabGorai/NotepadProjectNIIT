@@ -1,76 +1,128 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, simpledialog, font
+from tkinter import filedialog
+from tkinter import ttk
+import ttkbootstrap as ttkb
 
+def main_window(root: ttkb.Window):
+    # window creation
+    root.title("Death Note!")
+    icon = tk.PhotoImage(file="app_images/icon.png")
+    root.iconphoto(False, icon)
+    root.state("zoomed")
 
-class NotepadApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Quicknote")
-        self.file_path = None
-        self.current_font = ("Arial", 12)
+    # title
+    welcome = ttk.Label(master=root, text="Welcome to Death Note!!!!!, What you gonna note?", font=("Ink Free", 20))
+    welcome.pack(side="top", anchor="center", padx=10, pady=10)
 
-        # Create Text Widget
-        self.text_area = tk.Text(self.root, wrap='word', font=self.current_font)
-        self.text_area.pack(expand=1, fill='both')
+    #create new menu
+    create_new = ttk.Label(master=root, text="Create New Note", font=("Ink Free", 14))
+    create_new.pack(side="top", anchor="nw", padx=10, pady=10)
 
-        # Create Menu
-        self.menu = tk.Menu(self.root)
-        self.root.config(menu=self.menu)
+    create_new_input_frame = ttk.Frame(master=root)
+    create_new_button = ttk.Button(master=create_new_input_frame, text="Click to Create New Note", command=lambda: text_window(root))
+    create_new_button.pack()
+    create_new_input_frame.pack(side="top", anchor="nw", padx=5, pady=5)
 
-        # Menu Bar
-        self.file_menu = tk.Menu(self.menu, tearoff=0)
-        self.menu.add_cascade(label="File", menu=self.file_menu)
-        self.file_menu.add_command(label="Open", command=self.open_file)
-        self.file_menu.add_command(label="Save As...", command=self.save_as)
-        self.file_menu.add_command(label="Save", command=self.save, state='disabled')
-        self.edit_menu = tk.Menu(self.menu, tearoff=0)
-        self.menu.add_cascade(label="Edit", menu=self.edit_menu)
-        self.edit_menu.add_command(label="Change Font", command=self.change_font)
+    #see note menu
+    see_note = ttk.Label(master=root, text="See Note", font=("Ink Free", 14))
+    see_note.pack(side="top", anchor="nw", padx=10, pady=10)
 
-    def save_as(self):
-        file_path = filedialog.asksaveasfilename(defaultextension=".txt",
-                                                 filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
-        if file_path:
-            try:
-                with open(file_path, 'w') as file:
-                    file.write(self.text_area.get(1.0, tk.END))
-                self.file_path = file_path
-                self.file_menu.entryconfig("Save", state='normal')
-                self.root.title(f"Quicknote - {self.file_path}")
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to save file: {e}")
+    see_note_input_frame = ttk.Frame(master=root)
+    see_note_button = ttk.Button(master=see_note_input_frame, text="Click to Open Note", command=lambda: open_window(root))
+    see_note_button.pack()
+    see_note_input_frame.pack(side="top", anchor="nw", padx=5, pady=5)
 
-    def save(self):
-        if self.file_path:
-            try:
-                with open(self.file_path, 'w') as file:
-                    file.write(self.text_area.get(1.0, tk.END))
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to save file: {e}")
+    # about
+    about = ttk.Label(master=root, text="Created by:\nPrasun Bagdi\nGourab Gorai\nPartha Sarathi Guin", font=("Ink Free", 14))
+    about.pack(side="bottom", anchor="center", padx=10, pady=10)
 
-    def open_file(self):
-        file_path = filedialog.askopenfilename(defaultextension=".txt",
-                                               filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
-        if file_path:
-            try:
-                with open(file_path, 'r') as file:
-                    self.text_area.delete(1.0, tk.END)
-                    self.text_area.insert(tk.END, file.read())
-                self.file_path = file_path
-                self.file_menu.entryconfig("Save", state='normal')
-                self.root.title(f"Quicknote - {self.file_path}")
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to open file: {e}")
+    #run
+    window.mainloop()
 
-    def change_font(self):
-        font_family = simpledialog.askstring("Font", "Enter font family:", initialvalue=self.current_font[0])
-        font_size = simpledialog.askinteger("Font Size", "Enter font size:", initialvalue=self.current_font[1])
-        if font_family and font_size:
-            self.current_font = (font_family, font_size)
-            self.text_area.config(font=self.current_font)
+def open_window(root: ttkb.Window):
 
+    file_path = filedialog.askopenfilename(filetypes=[("Text files", ".txt"), ("All files", ".*")])
+    if file_path:
+        with open(file_path, "r") as file:
+            note_content = file.read()
+        # Create a new Toplevel window
+        new_window = tk.Toplevel(root)
+        new_window.title("Death Note!")
+        text_icon = tk.PhotoImage(file="app_images/icon.png")
+        new_window.iconphoto(False, text_icon)
+        new_window.state("zoomed")
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = NotepadApp(root)
-    root.mainloop()
+        # Note content text
+        see_note_text = ttk.Label(master=new_window, text="Your Note", font=("Ink Free", 14))
+        see_note_text.pack(side="top", anchor="center", padx=10, pady=10)
+
+        # Frame for text widget and scrollbars
+        text_frame = ttk.Frame(master=new_window)
+        text_frame.pack(side="top", anchor="center")
+
+        # Vertical scrollbar
+        v_scroll = ttk.Scrollbar(master=text_frame, orient=tk.VERTICAL)
+        v_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Horizontal scrollbar
+        h_scroll = ttk.Scrollbar(master=text_frame, orient=tk.HORIZONTAL)
+        h_scroll.pack(side=tk.BOTTOM, fill=tk.X)
+
+        # Text widget with scrollbars
+        note_text = tk.Text(master=text_frame, wrap="none", width=120, height=30, font=("Calibri", 14), yscrollcommand=v_scroll.set, xscrollcommand=h_scroll.set)
+        note_text.pack(side="top", fill=tk.BOTH, expand=True)
+        note_text.insert(tk.END, note_content)
+
+        # Configure the scrollbars
+        v_scroll.config(command=note_text.yview)
+        h_scroll.config(command=note_text.xview)
+
+        # save button
+        save_button = ttk.Button(master=new_window, text="Save", command=lambda: save_note_to_file(note_text))
+        save_button.pack(side="top", anchor="center")
+
+def text_window(root: ttkb.Window):
+    # Create a new Toplevel window
+    new_window = tk.Toplevel(root)
+    new_window.title("Death Note!")
+    text_icon = tk.PhotoImage(file="app_images/icon.png")
+    new_window.iconphoto(False, text_icon)
+    new_window.state("zoomed")
+
+    # Multi-line input for note content
+    note_content_text = ttk.Label(master=new_window, text="Write Your Note", font=("Ink Free", 14))
+    note_content_text.pack(side="top", anchor="center", padx=10, pady=10)
+
+    # Frame for the text widget and scrollbars
+    text_frame = ttk.Frame(master=new_window)
+    text_frame.pack(side="top", anchor="center")
+
+    # Vertical scrollbar
+    v_scroll = ttk.Scrollbar(master=text_frame, orient=tk.VERTICAL)
+    v_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
+    # Horizontal scrollbar
+    h_scroll = ttk.Scrollbar(master=text_frame, orient=tk.HORIZONTAL)
+    h_scroll.pack(side=tk.BOTTOM, fill=tk.X)
+
+    # Text widget with scrollbars
+    note_content = tk.Text(master=text_frame, wrap="none", width=120, height=30, font=("Calibri", 14), yscrollcommand=v_scroll.set, xscrollcommand=h_scroll.set)
+    note_content.pack(side="top", fill=tk.BOTH, expand=True)
+
+    # Configure the scrollbars
+    v_scroll.config(command=note_content.yview)
+    h_scroll.config(command=note_content.xview)
+
+    # save button
+    save_button = ttk.Button(master=new_window, text="Save", command=lambda: save_note_to_file(note_content))
+    save_button.pack(side="top", anchor="center")
+
+def save_note_to_file(note_content: tk.Text):
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", ".txt"), ("All files", ".*")])
+    if file_path:
+        with open(file_path, "w") as file:
+            file.write(note_content.get("1.0", tk.END))
+
+if __name__=="__main__":
+    window = ttkb.Window(themename="vapor")
+    main_window(window)
