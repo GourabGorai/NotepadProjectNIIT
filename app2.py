@@ -30,6 +30,13 @@ class NotepadApp:
         self.menu.add_cascade(label="Edit", menu=self.edit_menu)
         self.edit_menu.add_command(label="Change Font", command=self.change_font)
 
+        # About Menu
+        self.help_menu = tk.Menu(self.menu, tearoff=0)
+        self.menu.add_cascade(label="About software", menu=self.help_menu)
+        self.menu.add_cascade(label="About us", menu=self.help_menu)
+        self.help_menu.add_command(label="About Software", command=self.show_about_software)
+        self.help_menu.add_command(label="About Creators", command=self.show_about_creators)
+
     def save_as(self):
         file_path = filedialog.asksaveasfilename(defaultextension=".txt",
                                                  filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
@@ -64,6 +71,12 @@ class NotepadApp:
                 self.root.title(f"Quicknote - {self.file_path}")
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to open file: {e}")
+
+    def show_about_software(self):
+        messagebox.showinfo("About Quicknote", "Quicknote\nVersion 1.0\nA simple text editor created with Tkinter.")
+
+    def show_about_creators(self):
+        messagebox.showinfo("About Creators", "Creators:\n 1. Gourab Gorai \n 2. Prasun Bagdi \n 3. Partho Sarathi Guin")
 
     def change_font(self):
         font_popup = tk.Toplevel(self.root)
